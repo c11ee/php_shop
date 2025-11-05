@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,40 +11,19 @@ use Illuminate\Support\Facades\Validator;
 class UserController extends Controller
 {
     // 注册
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        // 校验规则
-        $rules = [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email',
-            'password' => 'required|string|min:6'
-        ];
 
-        // 自定义消息
-        $messages = [
-            'name.required'     => '请输入用户名',
-            'email.required'    => '请输入邮箱',
-            'email.email'       => '请输入正确的邮箱格式',
-            'email.unique'      => '邮箱已被注册',
-            'password.required' => '请输入密码',
-            'password.min'      => '密码至少6位',
-        ];
+        // 通过验证后可安全获取数据
+        // $data = $request->validated();
 
-        // 校验
-        $validator = Validator::make($request->all(), $rules, $messages);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'code' => -1,
-                'message' => $validator->errors()->first(),
-            ], 422);
-        }
-
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-        ]);
+        // 创建用户
+        $user = new User;
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        // 加密密码
+        $user->password = bcrypt($request->input('password'));
+        $user->save();
 
         return response()->json([
             'message' => '注册成功',
