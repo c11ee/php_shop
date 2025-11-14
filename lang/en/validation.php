@@ -3,6 +3,21 @@
 declare(strict_types=1);
 
 return [
+    /*
+    |--------------------------------------------------------------------------
+    | Custom Validation Attributes
+    |--------------------------------------------------------------------------
+    |
+    | The following language lines are used to swap attribute place-holders
+    | with something more reader friendly such as "E-Mail Address" instead
+    | of "email".
+    |
+    */
+    'attributes' => [
+        'name' => 'Name',
+        'email' => 'Email Address',
+        'password' => 'Password',
+    ],
     'accepted'               => 'The :attribute field must be accepted.',
     'accepted_if'            => 'The :attribute field must be accepted when :other is :value.',
     'active_url'             => 'The :attribute field must be a valid URL.',

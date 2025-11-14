@@ -20,18 +20,28 @@ class RegisterRequest extends BaseRequest
         ];
     }
 
-    // /**
-    //  * 自定义错误信息
-    //  */
-    // public function messages(): array
-    // {
-    //     return [
-    //         'name.required'     => '请输入用户名',
-    //         'email.required'    => '请输入邮箱',
-    //         'email.email'       => '请输入正确的邮箱格式',
-    //         'email.unique'      => '邮箱已被注册',
-    //         'password.required' => '请输入密码',
-    //         'password.min'      => '密码至少6位',
-    //     ];
-    // }
+    /**
+     * 获取自定义的属性名称
+     */
+    public function attributes(): array
+    {
+        return [
+            'name' => __('validation.attributes.name'),
+            'email' => __('validation.attributes.email'),
+            'password' => __('validation.attributes.password'),
+        ];
+    }
+
+    /**
+     * 自定义错误信息（使用翻译函数）
+     */
+    public function messages(): array
+    {
+        // 使用Laravel的默认验证翻译，无需重复定义通用错误消息
+        // 只需要定义特定的自定义消息
+        return [
+            'email.unique' => __('validation.unique'),
+            // 这里可以添加其他特定的自定义翻译消息
+        ];
+    }
 }

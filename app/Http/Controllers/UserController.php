@@ -15,14 +15,13 @@ class UserController extends Controller
     {
 
         // 通过验证后可安全获取数据
-        // $data = $request->validated();
-
+        $data = $request->validated();
         // 创建用户
         $user = new User;
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
+        $user->name = $data['name'];
+        $user->email = $data['email'];
         // 加密密码
-        $user->password = bcrypt($request->input('password'));
+        $user->password = bcrypt($data['password']);
         $user->save();
 
         return response()->json([
